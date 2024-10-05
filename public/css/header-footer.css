@@ -1,59 +1,65 @@
 /* Estilos para el header */
+#header-placeholder,
+#footer-placeholder {
+  flex: 0 0 auto; /* Mantiene el header y footer fijos en su lugar */
+  width: 100%;
+}
+
 #header-placeholder {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
 }
 
 .header-title {
-    margin: 0;
-    font-size: 24px;
+  margin: 0;
+  font-size: 24px;
 }
 
 .navbar {
-    padding: 0;
+  padding: 0;
 }
 
 .navbar ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .navbar ul li {
-    display: inline;
-    margin: 0 15px;
+  display: inline;
+  margin: 0 15px;
 }
 
 .navbar ul li a {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 .navbar ul li a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* Estilos para el footer */
 #footer-placeholder {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
 .footer-text {
-    margin: 0;
+  margin: 0;
 }
 
 .footer-link {
-    color: #ff6347; /* Un color rojo tomate */
-    text-decoration: none;
+  color: #ff6347; /* Un color rojo tomate */
+  text-decoration: none;
 }
 
 .footer-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
