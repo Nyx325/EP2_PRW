@@ -1,0 +1,12 @@
+{
+  "name": "ep2_prw",
+  "version": "1.0.0",
+  "description": "El proyecto se divide en carpetas con lo siguiente",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
