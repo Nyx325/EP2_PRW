@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="public/css/side-image.css" />
   </head>
   <body>
-    <header id="header-placeholder"></header>
+    <dinamic-content
+      path="public/partials/header.html"
+      style-path="public/css/header-footer.css"
+    ></dinamic-content>
 
     <div class="content-container">
       <aside class="img-container"></aside>
@@ -26,9 +29,12 @@
       </main>
     </div>
 
-    <footer id="footer-placeholder"></footer>
+    <dinamic-content
+      path="./public/partials/footer.html"
+      style-path="./public/css/header-footer.css"
+    ></dinamic-content>
 
     <!-- Script que carga automáticamente el header y footer -->
-    <script type="module" src="public/js/header-footer.js"></script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
