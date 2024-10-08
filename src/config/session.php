@@ -2,10 +2,9 @@
 // Iniciar la sesión
 session_start();
 
-// Obtener el método HTTP
-$method = $_SERVER['REQUEST_METHOD'];
-
-if ($method === 'POST') {
+// Función para login()
+function login()
+{
   $data = json_decode(file_get_contents('php://input'), true);
 
   if (!isset($data['user']['userName']) || !isset($data['user']['password'])) {
@@ -24,3 +23,45 @@ if ($method === 'POST') {
     echo json_encode(['status' => 'error', 'message' => 'Credenciales incorrectas']);
   }
 }
+
+function isUserLogged()
+{
+  if (isset($_SESSION['username'])) {
+    echo json_encode(['status' => 'success', 'username' => $_SESSION['username']]);
+  } else {
+    echo json_encode(['status' => 'error', 'message' => 'No hay sesión activa']);
+  }
+}
+
+function logOut()
+{
+  session_unset();
+  session_destroy();
+  echo json_encode(['message' => 'Sesión cerrada']);
+}
+
+function main()
+{
+  // Obtener el método HTTP
+  $method = $_SERVER['REQUEST_METHOD'];
+
+  switch ($method) {
+    case 'POST':
+      login();
+      break;
+
+    case 'GET':
+      isUserLogged();
+      break;
+
+    case 'DELETE':
+      logOut();
+      break;
+
+    default:
+      echo json_encode(['status' => 'error', 'message' => 'Opción no válida']);
+      break;
+  }
+}
+
+main();

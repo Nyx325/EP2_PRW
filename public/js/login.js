@@ -1,5 +1,6 @@
 import "../components/dinamicContent.js";
 document.addEventListener("DOMContentLoaded", () => {
+  const alert = document.getElementById("modal-alert");
   const loginBtn = document.getElementById("login-button");
   const usrInput = document.getElementById("user-input");
   const pwdInput = document.getElementById("pwd-input");
@@ -30,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
       body: JSON.stringify({ user }),
     })
       .then((response) => {
-        console.log(response);
         return response.text();
       })
       .then((data) => {
@@ -38,8 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // Intenta convertir la respuesta a JSON solo si es válida
         try {
           const jsonData = JSON.parse(data);
-          console.log(jsonData.message); // Mostrar el mensaje
-          // Aquí puedes agregar lógica adicional para mostrar el mensaje en la interfaz de usuario
+          console.log(jsonData);
+          if (jsonData.status === "error") {
+            alert.classList.remove("d-none");
+            alert.innerText = jsonData.message;
+          } else {
+            alert.classList.add("d-none");
+            document.location.href = "../views/menuRandom.html";
+          }
         } catch (e) {
           console.error("Error al analizar JSON:", e);
         }
