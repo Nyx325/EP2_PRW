@@ -42,7 +42,7 @@ function login($conn)
 function isUserLogged()
 {
   if (isset($_SESSION['username'])) {
-    echo json_encode(['status' => 'success', 'username' => $_SESSION['username']]);
+    echo json_encode(['status' => 'success', 'username' => $_SESSION['username'], 'tipo' => $_SESSION['tipo']]);
   } else {
     echo json_encode(['status' => 'error', 'message' => 'No hay sesion activa']);
   }
