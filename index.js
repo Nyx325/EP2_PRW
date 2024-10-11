@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const response = JSON.parse(responseText); // Intenta convertir a JSON después
 
     if (response.status === "success") {
-      document.location.href = "./public/views/menuRandom.html";
+      document.location.href = "./public/views/userMenu.html";
     } else {
       document.location.href = "./public/views/login.html";
     }

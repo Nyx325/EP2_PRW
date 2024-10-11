@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert.innerText = response.message;
     } else {
       alert.classList.add("d-none");
-      document.location.href = "../views/menuRandom.html";
+      document.location.href = "../views/userMenu.html";
     }
   });
 });
