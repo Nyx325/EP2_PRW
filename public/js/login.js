@@ -23,33 +23,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     console.log("solicitando respuesta");
-    fetch("../../src/config/session.php", {
+    const responseJSON = await fetch("../../src/config/session.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ user }),
-    })
-      .then((response) => {
-        return response.text();
-      })
-      .then((data) => {
-        console.log("Respuesta del servidor:", data); // Mostrar respuesta
-        // Intenta convertir la respuesta a JSON solo si es válida
-        try {
-          const jsonData = JSON.parse(data);
-          console.log(jsonData);
-          if (jsonData.status === "error") {
-            alert.classList.remove("d-none");
-            alert.innerText = jsonData.message;
-          } else {
-            alert.classList.add("d-none");
-            document.location.href = "../views/menuRandom.html";
-          }
-        } catch (e) {
-          console.error("Error al analizar JSON:", e);
-        }
-      })
-      .catch((error) => console.error(error));
+    });
+
+    console.log(`responseJSON: ${responseJSON}`);
+
+    const responseText = await responseJSON.text();
+    console.log(`responseText: ${responseText}`);
+    const response = JSON.parse(responseText);
+    console.log(response);
+
+    if (response.status === "error") {
+      alert.classList.remove("d-none");
+      alert.innerText = response.message;
+    } else {
+      alert.classList.add("d-none");
+      document.location.href = "../views/menuRandom.html";
+    }
   });
 });
