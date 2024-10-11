@@ -4,4 +4,4 @@ $usr = "root";
 $pwd = "";
 $db = "barberia";
 
-$conn = mysqli_connect($host, $usr, $pwd, $db);
+$conn = mysqli_connect($host, $usr, $pwd, $db); 
