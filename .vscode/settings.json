@@ -1,5 +1,6 @@
 {
     "java.project.sourcePaths": [
-        "public/js"
+        "public/js",
+        "src/models/repository"
     ]
 }

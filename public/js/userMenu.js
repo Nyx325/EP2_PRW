@@ -9,5 +9,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.location.href = "../views/login.html";
 
   const nav = document.getElementById("user-options");
-  const insertLink = document.createElement("a");
+  const insertServiceLink = document.createElement("a");
+  const insertServiceImg = document.createElement("img");
+  insertServiceImg.setAttribute("src", "../assets/icon/c.png");
+
+  insertServiceLink.appendChild(insertServiceImg);
+  nav.appendChild(insertServiceLink);
+
+  // todo lo demás del crud sin el insert xd
+  const cudServiceLink = document.createElement("a");
+  const cudServiceImg = document.createElement("img");
+  cudServiceImg.setAttribute("src", "../assets/icon/");
 });
