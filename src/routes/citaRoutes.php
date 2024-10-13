@@ -1,124 +1,111 @@
 <?php
-require "../models/citas.php";
-require "../config/database.php";
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require '../models/cita.php';
 
-// Función para agregar una cita (sin cambios)
-function agregarCita($data): string {
-    if (!isset($data['nombre'], $data['apellido'], $data['hora'], $data['fecha'], $data['servicio'])) {
-        return json_encode(['status' => 'error', 'message' => 'Faltan datos para crear la cita.']);
-    }
-
+function getCitas(): string {
+    $repo = new RepositorioCitas();
     try {
-        $cita = new Cita($data['nombre'], $data['apellido'], $data['fecha'], $data['hora'], $data['servicio']);
-        $repo = new RepositorioCita();
-        $repo->agregarCita($cita);
-        return json_encode(['success' => true]);
+        $result = $repo->buscarCitas();
+        return json_encode(['success' => true, 'data' => $result]);
     } catch (\Throwable $th) {
-        $errorData = [
+        return json_encode(['success' => false, 'error' => [
             'message' => $th->getMessage(),
             'file' => $th->getFile(),
             'line' => $th->getLine(),
             'code' => $th->getCode()
-        ];
-        return json_encode(['success' => false, 'error' => $errorData]);
+        ]]);
     }
 }
 
-// Nueva función para listar citas
-function listarCitas(): string {
-    header('Content-Type: application/json');
-    
+function updateCita($data): string {
+    if (!isset($data['cita']['id']) || !isset($data['cita']['cliente']) || !isset($data['cita']['servicio']) || !isset($data['cita']['fecha'])) {
+        return json_encode(['success' => false, 'error' => "Faltan campos"]);
+    }
+
     try {
-        $repo = new RepositorioCita();
-        $citas = $repo->listarCitas(); // Asegúrate de que esta función existe en tu repositorio
-        return json_encode(['success' => true, 'citas' => $citas]);
-    } catch (Exception $e) {
-        return json_encode(['success' => false, 'error' => $e->getMessage()]);
+        $cita = new Cita($data['cita']['id'], $data['cita']['cliente'], $data['cita']['servicio'], $data['cita']['fecha']);
+        $repo = new RepositorioCitas();
+        $repo->update($cita);
+        return json_encode(['success' => true]);
+    } catch (\Throwable $th) {
+        return json_encode(['success' => false, 'error' => [
+            'message' => $th->getMessage(),
+            'file' => $th->getFile(),
+            'line' => $th->getLine(),
+            'code' => $th->getCode()
+        ]]);
     }
 }
 
-function editarCita($data) {
-    header('Content-Type: application/json');
-
-    // Lee el cuerpo de la solicitud
-    $rawData = file_get_contents('php://input');
-    $data = json_decode($rawData, true); // Decodifica a un array asociativo
-
-    // Verifica si la decodificación fue exitosa
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        echo json_encode(['success' => false, 'error' => 'Datos JSON inválidos.']);
-        exit;
-    }
-
-    // Verifica que se hayan enviado todos los datos necesarios
-    if (!isset($data['id'], $data['nombre'], $data['apellido'], $data['fecha'], $data['hora'], $data['servicio'])) {
-        echo json_encode(['success' => false, 'error' => 'Faltan datos necesarios.']);
-        exit;
-    }
-
-    // Lógica de edición
-    require_once '../models/RepositorioCita.php';
-    try {
-        $repo = new RepositorioCita();
-        $cita = new Cita($data['nombre'], $data['apellido'], $data['fecha'], $data['hora'], $data['servicio']);
-        $repo->editarCita($data['id'], $cita);
-        echo json_encode(['success' => true, 'message' => 'Cita actualizada correctamente.']);
-    } catch (Exception $e) {
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-    }
-
-}
-//Eliminar citas
-
-function eliminarCita() {
-    header('Content-Type: application/json'); // Asegura el encabezado JSON
-
+function deleteCita(): string {
     if (!isset($_GET['id'])) {
-        echo json_encode(['success' => false, 'error' => 'ID de la cita no proporcionado.']);
-        exit;
+        return json_encode(["success" => false, "error" => "No se especificó registro"]);
     }
 
-    $id = intval($_GET['id']); // Convertir el ID a un entero
-
-    require_once '../models/RepositorioCita.php';
+    $repo = new RepositorioCitas();
 
     try {
-        $repo = new RepositorioCita();
-        $repo->eliminarCita($id); // Llamada al método del repositorio
-        echo json_encode(['success' => true, 'message' => 'Cita eliminada correctamente.']);
-    } catch (Exception $e) {
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        $repo->delete($_GET['id']);
+        return json_encode(['success' => true, "message" => $_GET['id']]);
+    } catch (\Throwable $th) {
+        return json_encode(['success' => false, 'error' => [
+            'message' => $th->getMessage(),
+            'file' => $th->getFile(),
+            'line' => $th->getLine(),
+            'code' => $th->getCode()
+        ]]);
     }
 }
 
+function createCita($data) {
+    if (!isset($data['cita']['cliente']) || !isset($data['cita']['servicio']) || !isset($data['cita']['fecha'])) {
+        return json_encode(["success" => false, "error" => "Faltan campos"]);
+    }
+
+    try {
+        $cita = new Cita(0, $data['cita']['cliente'], $data['cita']['servicio'], $data['cita']['fecha']);
+        $repo = new RepositorioCitas();
+        $repo->agregarCita($cita);
+        return json_encode(['success' => true]);
+    } catch (\Throwable $th) {
+        return json_encode(['success' => false, 'error' => [
+            'message' => $th->getMessage(),
+            'file' => $th->getFile(),
+            'line' => $th->getLine(),
+            'code' => $th->getCode()
+        ]]);
+    }
+}
 
 function main() {
-    $response = json_encode(['success' => false, 'error' => 'Error inesperado']);
     $data = json_decode(file_get_contents('php://input'), true);
-    
+
+    if (!isset($_SERVER['REQUEST_METHOD'])) {
+        echo json_encode(['success' => false, 'error' => "No method"]);
+        return;
+    }
+
     $method = $_SERVER['REQUEST_METHOD'];
 
     switch ($method) {
         case 'GET':
-            $response = listarCitas(); // Llama a la función que lista las citas
+            $response = getCitas();
             break;
 
         case 'POST':
-            $response = agregarCita($data);
+            $response = createCita($data);
             break;
-            
+
         case 'PUT':
-            editarCita($data);
+            $response = updateCita($data);
             break;
-            
+
         case 'DELETE':
-            eliminarCita($data);
+            $response = deleteCita();
             break;
 
         default:
+            $response = json_encode(['success' => false, 'error' => "Método no soportado"]);
             break;
     }
 
@@ -126,4 +113,3 @@ function main() {
 }
 
 main();
-
