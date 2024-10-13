@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // todo lo demás del crud sin el insert xd
   const cudServiceLink = document.createElement("a");
+  cudServiceLink.setAttribute("href", "../views/serviciosMenu.html");
   const cudServiceImg = document.createElement("img");
   cudServiceImg.setAttribute("src", "../assets/icon/");
 });

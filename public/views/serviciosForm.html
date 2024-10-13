@@ -25,7 +25,39 @@
 
     <div class="content-container">
       <aside class="img-container"></aside>
-      <main></main>
+      <main>
+        <form id="service-form">
+          <div class="alert alert-danger d-none" role="alert" id="modal-alert">
+            Ha ocurrido un error inesperado
+          </div>
+          <legend>Agregar un servicio</legend>
+          <div id="service-name-container" class="mb-2">
+            <label for="service-name" class="form-label">Nombre servicio</label>
+            <input
+              class="form-control"
+              type="text"
+              id="service-name"
+              required
+            />
+          </div>
+
+          <div id="service-name-container" class="mb-2">
+            <label for="service-price" class="form-label">Precio</label>
+            <input
+              class="form-control"
+              type="text"
+              id="service-price"
+              required
+            />
+          </div>
+
+          <div class="d-grid gap-2">
+            <button id="aceptar-btn" class="btn btn-primary" type="button">
+              Aceptar
+            </button>
+          </div>
+        </form>
+      </main>
     </div>
 
     <dinamic-content
@@ -34,6 +66,6 @@
     ></dinamic-content>
 
     <!-- Script que carga automáticamente el header y footer -->
-    <script type="module" src="../js/servicios.js"></script>
+    <script type="module" src="../js/serviciosForm.js"></script>
   </body>
 </html>
