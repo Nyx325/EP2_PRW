@@ -32,12 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
     switch (operation) {
       case "add":
         agregarServicio(servicio).then();
-        console.log("Fin metodo agregar");
         printTable().then();
         break;
 
       case "modify":
-        user.id = console.log("Modificando");
+        modificarServicio(servicio).then();
+        printTable().then();
         break;
 
       default:
@@ -70,6 +70,7 @@ const createModifyBtn = (serviceId) => {
     const resJSON = await fetch(
       `../../src/routes/serviceRoutes.php?id=${serviceId}`,
     );
+    console.log(resJSON);
     const res = JSON.parse(await resJSON.text());
 
     if (res.success === false) {
@@ -269,6 +270,56 @@ const agregarServicio = async (servicio) => {
 
   const responseJSON = await fetch("../../src/routes/serviceRoutes.php", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ servicio }),
+  });
+
+  console.log(responseJSON);
+  const resText = await responseJSON.text();
+  console.log(resText);
+  const res = JSON.parse(resText);
+
+  if (res.success === false) {
+    console.error(res);
+    alert.classList.remove("d-none");
+    alert.innerText = res.error.message ?? res.error;
+  } else {
+    modal.style.display = "none";
+    alert.classList.add("d-none");
+    precioInput.value = "";
+    nombreInput.value = "";
+  }
+};
+
+const modificarServicio = async (servicio) => {
+  const modal = document.getElementById("cu-service-modal");
+  const alert = document.getElementById("modal-alert");
+  const nombreInput = document.getElementById("service-name");
+  const precioInput = document.getElementById("service-price");
+
+  console.log("Agregando");
+
+  if (servicio.servicio === "") {
+    nombreInput.focus();
+    return;
+  }
+
+  if (servicio.precio === "") {
+    precioInput.focus();
+    return;
+  }
+
+  if (isNaN(servicio.precio)) {
+    precioInput.focus();
+    alert.classList.remove("d-none");
+    alert.innerText = "El precio debe ser un número";
+    return;
+  }
+
+  const responseJSON = await fetch("../../src/routes/serviceRoutes.php", {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },

@@ -36,13 +36,13 @@ function getServices(): string
 
 function updateService($data): string
 {
-  if (!isset($data['id']) || !isset($data['servicio']) || !isset($data['precio'])) {
-    return json_encode(['success' => false, 'error' => "Faltan campos"]);
+  if (!isset($data['servicio']['id']) || !isset($data['servicio']['servicio']) || !isset($data['servicio']['precio'])) {
+    return json_encode(['success' => false, 'error' => "Faltan campos", "data" => $data]);
   }
 
-  $servicio = new Servicio($data['id'], $data['servicio'], $data['precio']);
-  $repo = new RepositorioServicios();
   try {
+    $servicio = new Servicio($data['servicio']['id'], $data['servicio']['servicio'], $data['servicio']['precio']);
+    $repo = new RepositorioServicios();
     $repo->update($servicio);
     return json_encode(['success' => true]);
   } catch (\Throwable $th) {
