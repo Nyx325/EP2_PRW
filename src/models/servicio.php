@@ -17,11 +17,13 @@ class Servicio
 
 class ServicioBusqueda
 {
+  public ?int $id;
   public ?string $servicio;
   public ?float $precio;
 
   public function __construct()
   {
+    $this->id = null;
     $this->servicio = null;
     $this->precio = null;
   }
@@ -111,38 +113,6 @@ class RepositorioServicios
     return true;
   }
 
-  public function getBy(int $id): ?array
-  {
-    $conn = $this->connector->getConnection();
-
-    $query = "SELECT id, servicio, precio FROM servicios WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $query);
-
-    if (!$stmt) {
-      throw new Exception("Error preparando la consulta: " . mysqli_error($conn));
-    }
-
-    if (!mysqli_stmt_bind_param($stmt, "i", $id)) {
-      throw new Exception("Error vinculando parámetros: " . mysqli_stmt_error($stmt));
-    }
-
-    if (!mysqli_stmt_execute($stmt)) {
-      throw new Exception("Error ejecutando la consulta: " . mysqli_stmt_error($stmt));
-    }
-
-    $resultSet = mysqli_stmt_get_result($stmt);
-    if (!$resultSet) {
-      throw new Exception("Error obteniendo el resultado: " . mysqli_stmt_error($stmt));
-    }
-
-    $result = mysqli_fetch_assoc($resultSet);
-
-    mysqli_stmt_close($stmt);
-    mysqli_close($conn);
-
-    return $result ?: null;
-  }
-
   public function buscarServicios(ServicioBusqueda $busqueda): array
   {
     $conn = $this->connector->getConnection();
@@ -150,6 +120,12 @@ class RepositorioServicios
     $query = "SELECT * FROM servicios WHERE 1=1";
     $params = [];
     $paramTypes = "";
+
+    if (!is_null($busqueda->id)) {
+      $query .= " AND id = ?";
+      $params[] = $busqueda->id; // Notación para indicar un push al array
+      $paramTypes .= "i";
+    }
 
     if (!is_null($busqueda->servicio)) {
       $query .= " AND servicio LIKE ?";

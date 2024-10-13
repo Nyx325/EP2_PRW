@@ -1,14 +1,37 @@
 import "../components/dinamicContent.js";
 
 const createModifyBtn = (serviceId) => {
+  const modal = document.getElementById("cu-service-modal");
+  const modalTitle = document.getElementById("modal-title");
   const modifyBtn = document.createElement("button");
+  const nombreInput = document.getElementById("service-name");
+  const precioInput = document.getElementById("service-price");
+
   modifyBtn.innerText = "Modificar";
   modifyBtn.setAttribute("key", serviceId);
   modifyBtn.classList.add("btn");
   modifyBtn.classList.add("btn-primary");
 
   modifyBtn.addEventListener("click", async () => {
-    console.log("Modificar elemento de id: " + modifyBtn.getAttribute("key"));
+    modal.setAttribute("operation", "modify");
+    modalTitle.textContent = "Modificar servicio";
+    modal.style.display = "block";
+
+    const resJSON = await fetch(
+      `../../src/routes/serviceRoutes.php?id=${serviceId}`,
+    );
+    const res = JSON.parse(await resJSON.text());
+
+    if (res.success === false) {
+      console.error(res.error.message ?? res.error);
+      return;
+    }
+
+    const servicio = res.data[0];
+    console.log(servicio);
+    nombreInput.value = servicio.servicio;
+    precioInput.value = servicio.precio;
+    /*
     const resJSON = await fetch("../../src/routes/serviceRoutes.php", {
       method: "PUT",
       headers: {
@@ -27,6 +50,7 @@ const createModifyBtn = (serviceId) => {
     } else {
       console.error(res);
     }
+    */
   });
 
   return modifyBtn;
@@ -62,6 +86,10 @@ const printTable = async () => {
   container.innerHTML = "";
   const resJSON = await fetch("../../src/routes/serviceRoutes.php");
   const res = JSON.parse(await resJSON.text());
+  if (res.success === false) {
+    console.error(res.error.message ?? res.error);
+    return;
+  }
 
   const table = document.createElement("table");
   table.classList.add("table");
@@ -109,14 +137,78 @@ const printTable = async () => {
   container.appendChild(table);
 };
 
+const configForm = async () => {
+  const alert = document.getElementById("modal-alert");
+  const nombreInput = document.getElementById("service-name");
+  const precioInput = document.getElementById("service-price");
+  const btnAceptar = document.getElementById("aceptar-btn");
+
+  btnAceptar.addEventListener("click", async () => {
+    const servicio = {
+      servicio: nombreInput.value,
+      precio: precioInput.value,
+    };
+
+    if (servicio.servicio === "") {
+      nombreInput.focus();
+      return;
+    }
+
+    if (servicio.precio === "") {
+      precioInput.focus();
+      return;
+    }
+
+    if (isNaN(servicio.precio)) {
+      precioInput.focus();
+      alert.classList.remove("d-none");
+      alert.innerText = "El precio debe ser un número";
+      return;
+    }
+
+    const responseJSON = await fetch("../../src/routes/serviceRoutes.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ servicio }),
+    });
+
+    const resText = await responseJSON.text();
+    const res = JSON.parse(resText);
+
+    if (res.success === false) {
+      console.error(res.error);
+    }
+
+    if (res.success === false) {
+      console.error(res);
+      alert.classList.remove("d-none");
+      alert.innerText = res.error.message ?? res.error;
+    } else {
+      alert.classList.add("d-none");
+      document.location.href = "../views/serviciosMenu.html";
+    }
+  });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("cu-service-modal");
+  const modalTitle = document.getElementById("modal-title");
+  const volverBtn = document.getElementById("volver-btn");
   const aceptarBtn = document.getElementById("agregar-servicio");
-  console.log(aceptarBtn);
 
   aceptarBtn.addEventListener("click", () => {
-    document.location.href = "../views/serviciosForm.html";
-    return;
+    modalTitle.textContent = "Agregar servicio";
+    modal.style.display = "block";
+    modal.setAttribute("operation", "add");
+    // document.location.href = "../views/serviciosForm.html";
   });
 
+  volverBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  configForm().then();
   printTable().then();
 });

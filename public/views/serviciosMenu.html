@@ -16,6 +16,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="../css/side-image.css" />
+    <link rel="stylesheet" href="../css/modal.css" />
   </head>
   <body>
     <dinamic-content
@@ -25,6 +26,46 @@
 
     <div class="content-container">
       <aside class="img-container"></aside>
+
+      <div id="cu-service-modal" class="modal">
+        <form id="service-form" class="modal-content">
+          <div class="alert alert-danger d-none" role="alert" id="modal-alert">
+            Ha ocurrido un error inesperado
+          </div>
+
+          <legend id="modal-title">Agregar un servicio</legend>
+          <div id="service-name-container" class="mb-2">
+            <label for="service-name" class="form-label">Nombre servicio</label>
+            <input
+              class="form-control"
+              type="text"
+              id="service-name"
+              required
+            />
+          </div>
+
+          <div id="service-name-container" class="mb-2">
+            <label for="service-price" class="form-label">Precio</label>
+            <input
+              class="form-control"
+              type="text"
+              id="service-price"
+              required
+            />
+          </div>
+
+          <div class="d-grid gap-2">
+            <button id="aceptar-btn" class="btn btn-primary" type="button">
+              Aceptar
+            </button>
+
+            <button id="volver-btn" type="button" class="btn btn-danger">
+              Volver
+            </button>
+          </div>
+        </form>
+      </div>
+
       <main>
         <button id="agregar-servicio" type="button" class="btn btn-success">
           Agregar servicio

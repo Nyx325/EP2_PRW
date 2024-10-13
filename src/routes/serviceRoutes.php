@@ -10,6 +10,9 @@ function getServices(): string
   $repo = new RepositorioServicios();
   $criterioBusqueda = new ServicioBusqueda();
 
+  if (isset($_GET['id']))
+    $criterioBusqueda->id = $_GET['id'];
+
   if (isset($_GET['servicio']))
     $criterioBusqueda->servicio = $_GET['servicio'];
 
