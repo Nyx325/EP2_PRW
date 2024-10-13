@@ -1,5 +1,62 @@
 import "../components/dinamicContent.js";
 
+const createModifyBtn = (serviceId) => {
+  const modifyBtn = document.createElement("button");
+  modifyBtn.innerText = "Modificar";
+  modifyBtn.setAttribute("key", serviceId);
+  modifyBtn.classList.add("btn");
+  modifyBtn.classList.add("btn-primary");
+
+  modifyBtn.addEventListener("click", async () => {
+    console.log("Modificar elemento de id: " + modifyBtn.getAttribute("key"));
+    const resJSON = await fetch("../../src/routes/serviceRoutes.php", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: serviceId,
+        servicio: "si",
+        precio: 13.3,
+      }),
+    });
+
+    const res = await JSON.parse(await resJSON.text());
+    if (res.success === true) {
+      printTable();
+    } else {
+      console.error(res);
+    }
+  });
+
+  return modifyBtn;
+};
+
+const createDeleteBtn = (serviceId) => {
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerText = "Eliminar";
+  deleteBtn.setAttribute("key", serviceId);
+  deleteBtn.classList.add("btn");
+  deleteBtn.classList.add("btn-danger");
+
+  deleteBtn.addEventListener("click", async () => {
+    const resJSON = await fetch(
+      `../../src/routes/serviceRoutes.php?id=${serviceId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    const res = JSON.parse(await resJSON.text());
+    if (res.success === true) {
+      printTable();
+    } else {
+      console.error(res);
+    }
+  });
+
+  return deleteBtn;
+};
+
 const printTable = async () => {
   const main = document.getElementsByTagName("main")[0];
   main.innerHTML = "";
@@ -39,55 +96,8 @@ const printTable = async () => {
     const actionCell = document.createElement("td");
     row.appendChild(actionCell);
 
-    const modifyBtn = document.createElement("button");
-    modifyBtn.innerText = "Modificar";
-    modifyBtn.setAttribute("key", servicio.id);
-    modifyBtn.classList.add("btn");
-    modifyBtn.classList.add("btn-primary");
-    modifyBtn.addEventListener("click", async () => {
-      console.log("Modificar elemento de id: " + modifyBtn.getAttribute("key"));
-      const resJSON = await fetch("../../src/routes/serviceRoutes.php", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: modifyBtn.getAttribute("key"),
-          servicio: "si",
-          precio: 13.3,
-        }),
-      });
-
-      const res = await JSON.parse(await resJSON.text());
-      if (res.success === true) {
-        console.log("To ok");
-        printTable();
-      } else {
-        console.error(res);
-      }
-    });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "Eliminar";
-    deleteBtn.setAttribute("key", servicio.id);
-    deleteBtn.classList.add("btn");
-    deleteBtn.classList.add("btn-danger");
-    deleteBtn.addEventListener("click", async () => {
-      const id = modifyBtn.getAttribute("key");
-      const resJSON = await fetch(
-        `../../src/routes/serviceRoutes.php?id=${id}`,
-        {
-          method: "DELETE",
-        },
-      );
-      const res = JSON.parse(await resJSON.text());
-      if (res.success === true) {
-        console.log(res);
-        printTable();
-      } else {
-        console.error(res);
-      }
-    });
+    const modifyBtn = createModifyBtn(servicio.id);
+    const deleteBtn = createDeleteBtn(servicio.id);
 
     actionCell.appendChild(modifyBtn);
     actionCell.appendChild(deleteBtn);
