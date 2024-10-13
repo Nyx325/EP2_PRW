@@ -8,7 +8,7 @@ CREATE TABLE
 CREATE TABLE
     usuarios (
         id int (11) PRIMARY KEY AUTO_INCREMENT,
-        usuario varchar(15),
+        usuario varchar(200),
         contrasena varchar(10)
     );
 
@@ -31,6 +31,7 @@ VALUES
     ('5', '11:00', '20:00', 'Viernes'),
     ('6', '10:00', '18:00', 'Sabado'),
     ('7', '10:00', '14:00', 'Domingo');
+
 
 select
     *
