@@ -58,8 +58,8 @@ const createDeleteBtn = (serviceId) => {
 };
 
 const printTable = async () => {
-  const main = document.getElementsByTagName("main")[0];
-  main.innerHTML = "";
+  const container = document.getElementById("table-container");
+  container.innerHTML = "";
   const resJSON = await fetch("../../src/routes/serviceRoutes.php");
   const res = JSON.parse(await resJSON.text());
 
@@ -106,9 +106,17 @@ const printTable = async () => {
   });
 
   table.appendChild(tbody);
-  main.appendChild(table);
+  container.appendChild(table);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  const aceptarBtn = document.getElementById("agregar-servicio");
+  console.log(aceptarBtn);
+
+  aceptarBtn.addEventListener("click", () => {
+    document.location.href = "../views/serviciosForm.html";
+    return;
+  });
+
   printTable().then();
 });

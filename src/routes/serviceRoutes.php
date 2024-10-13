@@ -77,6 +77,28 @@ function deleteService(): string
   }
 }
 
+function createService($data)
+{
+  if (!isset($data['servicio']['servicio']) || !isset($data['servicio']['precio']))
+    return json_encode(["success" => false, "error" => "Faltan campos"]);
+
+  try {
+    $servicio = new Servicio(0, $data['servicio']['servicio'], $data['servicio']['precio']);
+    $repo = new RepositorioServicios();
+    $repo->agregarServicio($servicio);
+    return json_encode(['success' => true]);
+  } catch (\Throwable $th) {
+    // Extraer información útil del error
+    $errorData = [
+      'message' => $th->getMessage(),
+      'file' => $th->getFile(),
+      'line' => $th->getLine(),
+      'code' => $th->getCode()
+    ];
+    return json_encode(['success' => false, 'error' => $errorData]);
+  }
+}
+
 function main()
 {
   $data = json_decode(file_get_contents('php://input'), true);
@@ -91,6 +113,10 @@ function main()
   switch ($method) {
     case 'GET':
       $response = getServices();
+      break;
+
+    case 'POST':
+      $response = createService($data);
       break;
 
     case 'PUT':
