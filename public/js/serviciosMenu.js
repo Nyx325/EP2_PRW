@@ -1,4 +1,53 @@
 import "../components/dinamicContent.js";
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("cu-service-modal");
+  const modalTitle = document.getElementById("modal-title");
+  const volverBtn = document.getElementById("volver-btn");
+  const agregarBtn = document.getElementById("agregar-servicio");
+  const btnAceptar = document.getElementById("aceptar-btn");
+  const nombreServicioInput = document.getElementById("service-name");
+  const precioServicioInput = document.getElementById("service-price");
+
+  agregarBtn.addEventListener("click", () => {
+    modalTitle.textContent = "Agregar servicio";
+    modal.style.display = "block";
+    modal.setAttribute("operation", "add");
+    modal.setAttribute("service-id", 0);
+  });
+
+  volverBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+    nombreServicioInput.value = "";
+    precioServicioInput.value = "";
+  });
+
+  btnAceptar.addEventListener("click", () => {
+    const operation = modal.getAttribute("operation");
+    const servicio = {
+      id: modal.getAttribute("service-id"),
+      servicio: nombreServicioInput.value.trim(),
+      precio: precioServicioInput.value.trim(),
+    };
+
+    switch (operation) {
+      case "add":
+        agregarServicio(servicio).then();
+        console.log("Fin metodo agregar");
+        printTable().then();
+        break;
+
+      case "modify":
+        user.id = console.log("Modificando");
+        break;
+
+      default:
+        console.error(`invalid operation ${operation}`);
+        break;
+    }
+  });
+
+  printTable().then();
+});
 
 const createModifyBtn = (serviceId) => {
   const modal = document.getElementById("cu-service-modal");
@@ -16,6 +65,7 @@ const createModifyBtn = (serviceId) => {
     modal.setAttribute("operation", "modify");
     modalTitle.textContent = "Modificar servicio";
     modal.style.display = "block";
+    modal.setAttribute("service-id", serviceId);
 
     const resJSON = await fetch(
       `../../src/routes/serviceRoutes.php?id=${serviceId}`,
@@ -192,23 +242,52 @@ const configForm = async () => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+const agregarServicio = async (servicio) => {
   const modal = document.getElementById("cu-service-modal");
-  const modalTitle = document.getElementById("modal-title");
-  const volverBtn = document.getElementById("volver-btn");
-  const aceptarBtn = document.getElementById("agregar-servicio");
+  const alert = document.getElementById("modal-alert");
+  const nombreInput = document.getElementById("service-name");
+  const precioInput = document.getElementById("service-price");
 
-  aceptarBtn.addEventListener("click", () => {
-    modalTitle.textContent = "Agregar servicio";
-    modal.style.display = "block";
-    modal.setAttribute("operation", "add");
-    // document.location.href = "../views/serviciosForm.html";
+  console.log("Agregando");
+
+  if (servicio.servicio === "") {
+    nombreInput.focus();
+    return;
+  }
+
+  if (servicio.precio === "") {
+    precioInput.focus();
+    return;
+  }
+
+  if (isNaN(servicio.precio)) {
+    precioInput.focus();
+    alert.classList.remove("d-none");
+    alert.innerText = "El precio debe ser un número";
+    return;
+  }
+
+  const responseJSON = await fetch("../../src/routes/serviceRoutes.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ servicio }),
   });
 
-  volverBtn.addEventListener("click", () => {
+  console.log(responseJSON);
+  const resText = await responseJSON.text();
+  console.log(resText);
+  const res = JSON.parse(resText);
+
+  if (res.success === false) {
+    console.error(res);
+    alert.classList.remove("d-none");
+    alert.innerText = res.error.message ?? res.error;
+  } else {
     modal.style.display = "none";
-  });
-
-  configForm().then();
-  printTable().then();
-});
+    alert.classList.add("d-none");
+    precioInput.value = "";
+    nombreInput.value = "";
+  }
+};
