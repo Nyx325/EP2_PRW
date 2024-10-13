@@ -62,20 +62,6 @@ class DinamicContent extends HTMLElement {
       .catch((error) => console.error("Error cargando header:", error));
   }
 }
-fetch('', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(cita)
-})
-.then(response => response.json())
-.then(data => {
-  console.log(data);
-})
-.catch(error => {
-  console.error('Error:', error);
-});
 
 // Hacer que nuestro componente pueda ser usado
 // en el html
