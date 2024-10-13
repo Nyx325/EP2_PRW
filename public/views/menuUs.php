@@ -36,8 +36,8 @@
         <h2>Bienvenido, <?php echo $_SESSION['username']; ?></h2>
     <ul>
         <a href="createCita.html"><img src="../assets/icon/c.png" alt="Crear"></a>
-        <a href="ver_citas.php"><img src="../assets/icon/r.png"/></a>
-        <a href="editar_cita.php"><img src="../assets/icon/u.gif"/></a>
+        <a href="readCita.html"><img src="../assets/icon/r.png"/></a>
+        <a href="updateCita.php"><img src="../assets/icon/u.gif"/></a>
         <a href="eliminar_cita.php"><img src="../assets/icon/d.png"/></a>
         <a href="/src/controllers/logout.php"><img src="../assets/icon/r.png"/></a></li>    
     </ul>
