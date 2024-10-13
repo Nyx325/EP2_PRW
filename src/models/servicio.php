@@ -86,7 +86,7 @@ class RepositorioServicios
     return true;
   }
 
-  public function delete(Servicio $serv): bool
+  public function delete(int $id): bool
   {
     $conn = $this->connector->getConnection();
 
@@ -97,7 +97,7 @@ class RepositorioServicios
       throw new Exception("Error preparando la consulta: " . mysqli_error($conn));
     }
 
-    if (!mysqli_stmt_bind_param($stmt, "i", $serv->id)) {
+    if (!mysqli_stmt_bind_param($stmt, "i", $id)) {
       throw new Exception("Error vinculando parámetros: " . mysqli_stmt_error($stmt));
     }
 
