@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loginBtn.addEventListener("click", async () => {
     const user = { userName: usrInput.value, password: pwdInput.value };
-    console.log(user);
 
     if (user.userName === "") {
       usrInput.focus();
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    console.log("solicitando respuesta");
     const responseJSON = await fetch("../../src/config/session.php", {
       method: "POST",
       headers: {
@@ -31,19 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
       body: JSON.stringify({ user }),
     });
 
-    console.log(`responseJSON: ${responseJSON}`);
-
     const responseText = await responseJSON.text();
-    console.log(`responseText: ${responseText}`);
     const response = JSON.parse(responseText);
-    console.log(response);
 
     if (response.status === "error") {
       alert.classList.remove("d-none");
       alert.innerText = response.message;
     } else {
       alert.classList.add("d-none");
-      document.location.href = "../views/menuRandom.html";
+      document.location.href = "../views/userMenu.html";
     }
   });
 });

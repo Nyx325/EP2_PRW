@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barberia 7A</title>
+    <link rel="stylesheet" href="../css/side-image.css" />
+  </head>
+  <body>
+    <dinamic-content
+      path="../partials/header.html"
+      style-path="../css/header-footer.css"
+    ></dinamic-content>
+
+    <div class="content-container">
+      <aside class="img-container"></aside>
+      <main>
+        <nav id="user-options"></nav>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate,
+          rerum, reprehenderit consequatur perferendis officia, vitae fuga animi
+          temporibus itaque atque
+        </p>
+        <picture>
+          <img loading="lazy" src="../assets/img/2.jpg" alt="imagen blog" />
+        </picture>
+      </main>
+    </div>
+
+    <dinamic-content
+      path="../partials/footer.html"
+      style-path="../css/header-footer.css"
+    ></dinamic-content>
+
+    <!-- Script que carga automáticamente el header y footer -->
+    <script type="module" src="../js/userMenu.js"></script>
+  </body>
+</html>
