@@ -13,7 +13,7 @@ class Connector
 
     // Verificar la conexión
     if (!$conn) {
-      die("Error de conexión: " . mysqli_connect_error()); // Salir si hay un error en la conexión
+      throw new Exception("Error de conexión: " . mysqli_connect_error());
     }
 
     return $conn;
