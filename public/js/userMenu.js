@@ -8,17 +8,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (response.status !== "success")
     document.location.href = "../views/login.html";
 
+  console.log(response);
+
+  // Inicializamos el objeto user como null y luego asignamos response.user
+  const username = response.username;
+  console.log(`usermane: ${username}`);
   const nav = document.getElementById("user-options");
-  const insertServiceLink = document.createElement("a");
-  const insertServiceImg = document.createElement("img");
-  insertServiceImg.setAttribute("src", "../assets/icon/c.png");
 
-  insertServiceLink.appendChild(insertServiceImg);
-  nav.appendChild(insertServiceLink);
+  // Botón que siempre debe generarse y redirige a index.html
+  const homeButton = document.createElement("a");
+  homeButton.setAttribute("href", "../views/index.html");
+  homeButton.textContent = "Home";
+  nav.appendChild(homeButton);
 
-  // todo lo demás del crud sin el insert xd
-  const cudServiceLink = document.createElement("a");
-  cudServiceLink.setAttribute("href", "../views/serviciosMenu.html");
-  const cudServiceImg = document.createElement("img");
-  cudServiceImg.setAttribute("src", "../assets/icon/");
+  // Verificamos si el usuario es "admin"
+  if (username === "admin") {
+    const crudServiceLink = document.createElement("a");
+    crudServiceLink.setAttribute("href", "../views/serviciosMenu.html");
+    console.log(crudServiceLink.getAttribute("href"));
+
+    const crudServiceImg = document.createElement("img");
+    crudServiceImg.setAttribute("src", "../assets/icon/c.png");
+    crudServiceLink.appendChild(crudServiceImg);
+
+    nav.appendChild(crudServiceLink);
+  }
 });
