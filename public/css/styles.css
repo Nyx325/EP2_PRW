@@ -1,0 +1,28 @@
+body {
+    background-color: #343a40; /* Fondo gris oscuro */
+    color: white; /* Color del texto blanco */
+}
+
+h2 {
+    font-family: 'Arial', sans-serif; /* Estilo de fuente para el encabezado */
+    font-weight: bold; /* Negrita para el encabezado */
+    color: #ffcc00; /* Color dorado para el encabezado */
+}
+
+.table {
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden; /* Para asegurar que el borde redondeado funcione bien */
+}
+
+.table th, .table td {
+    vertical-align: middle; /* Alinear el contenido verticalmente */
+}
+
+.table th {
+    background-color: #555; /* Color de fondo para el encabezado */
+    color: #ffcc00; /* Color dorado para el texto del encabezado */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #454d55; /* Color alternativo para filas impares */
+}

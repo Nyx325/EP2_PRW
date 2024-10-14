@@ -1,0 +1,42 @@
+
+        /* Fondo y estilo general */
+        body {
+            background-color: #000; /* Fondo negro */
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .menu-container {
+            background-color: #1a1a1a; /* Fondo gris oscuro */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .menu-container h2 {
+            color: #ffcc00; /* Dorado */
+            margin-bottom: 20px;
+        }
+
+        .menu-container a {
+            display: block;
+            margin: 10px 0;
+            font-size: 18px;
+            color: #6f32be; /* Morado */
+            text-decoration: none;
+        }
+
+        .menu-container a:hover {
+            color: #ffcc00; /* Cambia a dorado al pasar */
+        }
+
+        .menu-container .btn {
+            margin-top: 15px;
+            width: 100%;
+            font-size: 18px;
+        }

@@ -1,0 +1,64 @@
+
+/* Estilo global */
+body {
+    background-color: #000; /* Fondo negro */
+    color: white; /* Texto blanco */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1000px;
+    padding: 20px;
+}
+
+/* Encabezado */
+h2 {
+    font-weight: bold;
+    color: #ffcc00; /* Color dorado */
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Estilo del contenedor de la tabla */
+.table-container {
+    background-color: #1a1a1a; /* Fondo gris oscuro */
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1); /* Sombra tenue */
+    padding: 20px;
+}
+
+/* Botones */
+.btn-delete {
+    color: #ff4d4d; /* Rojo para eliminar */
+    border: none;
+    background: none;
+}
+
+.btn-update {
+    color: #6f32be; /* Morado para actualizar */
+    border: none;
+    background: none;
+}
+
+.btn-update:hover, .btn-delete:hover {
+    opacity: 0.8;
+}
+
+/* Estilo de la tabla */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #fff2f2;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #1f1f1f;
+}
+
+.thead-dark th {
+    background-color: #333;
+    color: #ffcc00; /* Dorado */
+}
