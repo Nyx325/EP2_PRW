@@ -5,8 +5,8 @@
     public function getConnection(): mysqli
     {
       $host = "localhost";
-      $usr = "root";
-      $pwd = "";
+      $usr = "rubenor";
+      $pwd = "archsudoloco";
       $db = "barberia";
 
       $conn = mysqli_connect($host, $usr, $pwd, $db);
