@@ -16,10 +16,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const nav = document.getElementById("user-options");
 
   // Botón que siempre debe generarse y redirige a index.html
-  const homeButton = document.createElement("a");
-  homeButton.setAttribute("href", "../views/index.html");
-  homeButton.textContent = "Home";
-  nav.appendChild(homeButton);
+  const citasBtn = document.createElement("a");
+  citasBtn.setAttribute("href", "../views/menuCitas.html");
+
+  const citasImg = document.createElement("img");
+  citasImg.setAttribute("src", "../assets/icon/r.png");
+  citasBtn.appendChild(citasImg);
+
+  nav.appendChild(citasBtn);
 
   // Verificamos si el usuario es "admin"
   if (username === "admin") {
