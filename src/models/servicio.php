@@ -128,7 +128,7 @@ class RepositorioServicios
     }
 
     if (!is_null($busqueda->servicio)) {
-      $query .= " AND servicio LIKE ?";
+      $query .= " AND nombre LIKE ?";
       $params[] = "%" . $busqueda->servicio . "%";
       $paramTypes .= "s";
     }
@@ -162,7 +162,7 @@ class RepositorioServicios
 
     $servicios = [];
     while ($row = mysqli_fetch_assoc($result)) {
-      $servicios[] = new Servicio($row['id'], $row['servicio'], (float)$row['precio']);
+      $servicios[] = new Servicio($row['id'], $row['nombre'], (float)$row['precio']);
     }
 
     mysqli_stmt_close($stmt);

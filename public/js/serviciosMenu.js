@@ -136,7 +136,8 @@ const printTable = async () => {
   const container = document.getElementById("table-container");
   container.innerHTML = "";
   const resJSON = await fetch("../../src/routes/serviceRoutes.php");
-  const res = JSON.parse(await resJSON.text());
+  const resText = await resJSON.text();
+  const res = JSON.parse(resText);
   if (res.success === false) {
     console.error(res.error.message ?? res.error);
     return;
